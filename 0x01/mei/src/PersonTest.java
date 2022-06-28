@@ -1,60 +1,48 @@
-package src;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 public class PersonTest {
 
-    Person person;
+    Person pessoa;
 
     @BeforeEach
-    public void setUp() {
-        person = new Person();
-        person.setName("Paul");
-        person.setSurname("McCartney");
-        person.setBirthDate(new Calendar.Builder().setDate(1942, Calendar.JANUARY, 8).build().getTime());
-        person.setAnotherCompanyOwner(true);
-        person.setPensioner(true);
-        person.setPublicServer(true);
+    public void setup() {
+	pessoa = new Person();
+	pessoa.setName("Paul");
+	pessoa.setSurname("McCartney");
+	pessoa.setBirthDate(1947);
     }
 
     @Test
-    public void show_full_name() {
-        assertEquals("Paul McCartney", Person.fullName(person.getName(), person.getSurname()));
+    void show_full_name() {
+	assertEquals("Paul McCartney", pessoa.fullName());
     }
 
     @Test
-    public void test_calculateYearlySalary() {
-        assertEquals(14400, Person.calculateYearlySalary(1200));
+    void test_calculateYearlySalary() {
+	pessoa.setSalary(1200);
+	assertEquals(14400.0, pessoa.calculateYearlySalary());
     }
 
     @Test
-    public void person_is_MEI() {
-        float salary = 1200;
-        Person person = new Person();
-        person.setBirthDate(new Calendar.Builder().setDate(1942, Calendar.JANUARY, 8).build().getTime());
-        person.setPublicServer(false);
-        person.setPensioner(false);
-        person.setAnotherCompanyOwner(false);
+    void person_is_MEI() {
+	pessoa.setAnotherCompanyOwner(false);
+	pessoa.setPensioner(false);
+	pessoa.setPublicServer(false);
 
-        assertTrue(Person.isMEI(salary, person.isAnotherCompanyOwner(), person.isPensioner(), person.isPublicServer(), person.getBirthDate()));
+	assertTrue(pessoa.isMEI());
     }
 
     @Test
-    public void person_is_not_MEI() {
-        float salary = 50000;
-        Date birthDate = new Calendar.Builder().setDate(1942, Calendar.JANUARY, 8).build().getTime();
-        Person person = new Person();
-        person.setBirthDate(birthDate);
-        person.setPublicServer(true);
-        person.setPensioner(true);
-        person.setAnotherCompanyOwner(true);
+    void person_is_not_MEI() {
+	pessoa.setAnotherCompanyOwner(true);
+	pessoa.setPensioner(true);
+	pessoa.setPublicServer(true);
 
-        assertFalse(Person.isMEI(salary, person.isAnotherCompanyOwner(), person.isPensioner(), person.isPublicServer(), birthDate));
+	assertFalse(pessoa.isMEI());
     }
 }

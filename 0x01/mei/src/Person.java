@@ -1,83 +1,101 @@
-package src;
 
-import java.util.Date;
+  
+import java.time.LocalDate;
 
 public class Person {
 
     private String name;
     private String surname;
-    private Date birthDate;
+    private int birthDate;
     private boolean anotherCompanyOwner;
-    private boolean pensioner;
-    private boolean publicServer;
+    private boolean Pensioner;
+    private boolean PublicServer;
     private float salary;
 
-    public static String fullName(String name, String surname) {
-        return String.format("%s %s", name, surname);
+    public Person() {
+
+    }
+
+    public Person(String name, String surname, int birthDate, float salary) {
+	super();
+	this.name = name;
+	this.surname = surname;
+	this.birthDate = birthDate;
+	this.salary = salary;
     }
 
     public String getName() {
-        return name;
+	return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+	this.name = name;
     }
 
     public String getSurname() {
-        return surname;
+	return surname;
     }
 
     public void setSurname(String surname) {
-        this.surname = surname;
+	this.surname = surname;
     }
 
-    public Date getBirthDate() {
-        return birthDate;
+    public int getBirthDate() {
+	return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthDate(int birthDate) {
+	this.birthDate = birthDate;
     }
 
     public boolean isAnotherCompanyOwner() {
-        return anotherCompanyOwner;
+	return anotherCompanyOwner;
     }
 
     public void setAnotherCompanyOwner(boolean anotherCompanyOwner) {
-        this.anotherCompanyOwner = anotherCompanyOwner;
+	this.anotherCompanyOwner = anotherCompanyOwner;
     }
 
     public boolean isPensioner() {
-        return pensioner;
+	return Pensioner;
     }
 
     public void setPensioner(boolean pensioner) {
-        this.pensioner = pensioner;
+	Pensioner = pensioner;
     }
 
     public boolean isPublicServer() {
-        return publicServer;
+	return PublicServer;
     }
 
     public void setPublicServer(boolean publicServer) {
-        this.publicServer = publicServer;
+	PublicServer = publicServer;
     }
 
     public float getSalary() {
-        return salary;
+	return salary;
     }
 
     public void setSalary(float salary) {
-        this.salary = salary;
+	this.salary = salary;
     }
 
-    public static float calculateYearlySalary(float salary) {
-        return salary * 12;
+    public String fullName() {
+	return name + " " + surname;
     }
 
-    public static boolean isMEI(float salary, boolean anotherCompanyOwner, boolean pensioner, boolean publicServer, Date birthDate) {
-        return (salary * 12) < 130000 && !anotherCompanyOwner && !pensioner && !publicServer && birthDate.getTime() < 2002;
+    public float calculateYearlySalary() {
+	return this.salary * 12;
     }
 
+    private int age() {
+	return LocalDate.now().getYear() - birthDate;
+    }
+
+    public boolean isMEI() {
+	if (calculateYearlySalary() < 130000 && age() >= 18) {
+	    return anotherCompanyOwner == false && Pensioner == false && PublicServer == false;
+	}
+	return false;
+    }
 }
